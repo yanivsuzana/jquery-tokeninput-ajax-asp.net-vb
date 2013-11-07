@@ -5,7 +5,7 @@
  * Copyright (c) 2009 James Smith (http://loopj.com)
  * Licensed jointly under the GPL and MIT licenses,
  * choose which one suits your project best!
- *
+ * fixed empty string
  */
 
 (function ($) {
@@ -276,7 +276,9 @@
                     }
                     else {
 
-                        var frominput = $(this).val();
+                        var frominput = $.trim($(this).val());
+
+
 
                         if (frominput != "") {
                             $("#" + input.id).tokenInput("add", { id: 0, name: frominput });
@@ -285,7 +287,7 @@
                             return false;
                         }
 
-                     
+
                         return false;
                     }
 
@@ -498,6 +500,7 @@
             selected_token_index++;
 
             // Update the hidden input
+        
             update_hidden_input(saved_tokens, hidden_input);
 
             token_count += 1;
@@ -681,7 +684,14 @@
 
         // Highlight the query part of the search term
         function highlight_term(value, term) {
-            return value.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + term + ")(?![^<>]*>)(?![^&;]+;)", "gi"), "<b>$1</b>");
+
+            if (value == null) {
+                return "";
+            }
+            else {
+                return value.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + term + ")(?![^<>]*>)(?![^&;]+;)", "gi"), "<b>$1</b>");
+            }
+
         }
 
         function find_value_and_highlight_term(template, value, term) {
